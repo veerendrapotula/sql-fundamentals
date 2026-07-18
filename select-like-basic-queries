@@ -1,0 +1,70 @@
+show databases
+
+select * from students
+select * from courses
+select * from enrollments
+
+use  training11am
+
+
+
+
+select * from students
+where age in (20,30)
+
+select * from students
+where age BETWEEN 20 AND 30
+
+select * from students
+where first_name like 'a%_'
+
+select * from students
+where first_name like 'a%'
+
+select * from students
+where first_name not like 'a%'
+
+select count(*) from students
+
+select count(*) from students
+where first_name like 'a%'
+
+select count(*) from students
+where first_name not like 'a%'
+
+
+
+SELECT city, course_track, COUNT(*) AS total
+FROM students
+GROUP BY city, course_track;
+
+
+SELECT course_track, city, COUNT(*) AS total
+FROM students
+GROUP BY course_track, city;
+
+
+SELECT course_id, COUNT(*) AS total_enrollments
+FROM enrollments
+GROUP BY course_id
+HAVING COUNT(*) > 3;
+
+select * from enrollments
+where course_id in(101,105)
+
+select * from courses
+where course_id in(101,105)
+
+
+Categories with total course fee above 15000
+
+select category,sum(fee) as total_fee
+from courses
+GROUP BY category
+HAVING total_fee > 15000
+
+
+select category,sum(fee) as total_fee
+from courses
+GROUP BY category
+HAVING sum(fee) > 15000
