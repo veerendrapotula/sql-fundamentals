@@ -1,0 +1,82 @@
+select category,count(*) as count 
+from courses 
+group by category;
+
+select category,max(seats_available) as seatsavailable 
+from courses 
+group by category;
+
+-- Aggregate functions when used without the group by willl return us the summary of the entire table
+-- but  when used with group by it will return the summary value of a partiucular bucket
+
+select category, max(seats_available) as seatsavailable
+from courses
+where category = 'Programming'
+
+-- Average of discounts for each category
+
+select category, avg(discount_percent) as averagediscount
+from courses
+group by category;
+
+
+
+select  category,discount_percent ,avg(discount_percent) as avg, count(*) as count 
+from courses 
+group by category,discount_percent;
+
+
+select * from courses;
+
+-- I want the category wise sum and filter the category which has sum greater than 20k
+-- Having will only to used to filter the rows in a group by clause
+
+select category, sum(fee) as totalsum
+from courses
+group by category
+having sum(fee) >20000
+
+
+-- Discount percent is greater than or equal to 10 and avg is  greater than 10	
+
+	select  category,discount_percent ,avg(discount_percent) as avgdiscount, count(*) as count
+	from courses 
+	group by category,discount_percent
+	HAVING discount_percent>=10 and avgdiscount > 10;
+    
+-- queries from pdfs which shared by sai kiran
+
+-- Count students per city
+
+select * from students;
+
+select city, count(*) as total_students
+from students
+group by city 
+
+-- Total revenue per course
+select * from courses
+
+SELECT course_id, COUNT(*) AS total_enrollments, SUM(amount_paid) AS total_revenue
+FROM enrollments
+GROUP BY course_id;
+
+-------
+SELECT course_name,SUM(fee) AS total_course_fees 
+FROM courses
+group by course_name;
+
+
+-- Average fee per category
+
+select category, avg(fee) as avg_fee,count(*) as num_courses
+from courses
+group by category
+
+
+-- GROUP BY with WHERE (filter rows before grouping)
+
+SELECT city, COUNT(*) AS active_students
+FROM students
+WHERE is_active = 'Yes'
+GROUP BY city;
