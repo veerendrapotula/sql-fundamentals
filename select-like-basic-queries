@@ -68,3 +68,29 @@ select category,sum(fee) as total_fee
 from courses
 GROUP BY category
 HAVING sum(fee) > 15000
+
+
+-- select queries with offset,limit TOP-N queries
+-- Useful shorthand, but flag it as a readability trade-off 
+-- encourage students to prefer column names in real projects.
+SELECT course_name, fee FROM courses ORDER BY 2 DESC;
+
+SELECT course_name, fee FROM courses ORDER BY fee DESC LIMIT 5;
+
+select course_name, fee FROM courses ORDER BY fee DESC LIMIT 5 offset 7;
+SELECT course_name, fee FROM courses ORDER BY fee
+
+
+SELECT
+COUNT(*) AS total_enrollments,
+SUM(amount_paid) AS total_collected,
+AVG(amount_paid) AS average_payment,
+MAX(amount_paid) AS highest_payment
+FROM enrollments
+WHERE status = 'Completed';
+
+select * from enrollments
+where status = 'Completed';
+
+select count(*) from enrollments
+where status = 'Completed';
