@@ -1,0 +1,123 @@
+create table students(
+	student_id INT PRIMARY KEY,
+    first_name varchar(50) NOT NULL,
+    last_name varchar(50),
+    email varchar(50) UNIQUE NOT NULL,
+	phone varchar(15) UNIQUE,
+    age INT check(age>=15),
+    city varchar(50) DEFAULT 'Not Specified',
+    state VARCHAR(50),
+    enrollment_date DATE NOT NULL,
+    course_track varchar(50) DEFAULT 'General',
+    is_active varchar(5) DEFAULT 'Yes' CHECK (is_active IN ('Yes','No'))
+);
+
+
+CREATE TABLE courses (
+    course_id       INT PRIMARY KEY,
+    course_name     VARCHAR(100) NOT NULL UNIQUE,
+    category        VARCHAR(50) NOT NULL,
+    duration_days   INT NOT NULL CHECK (duration_days > 0),
+    fee             DECIMAL(10,2) CHECK (fee >= 0),
+    discount_percent INT DEFAULT 0 CHECK (discount_percent BETWEEN 0 AND 100),
+    instructor      VARCHAR(50) DEFAULT 'TBD',
+    mode            VARCHAR(20) CHECK (mode IN ('Online', 'Offline', 'Hybrid')),
+    level           VARCHAR(20) CHECK (level IN ('Beginner', 'Intermediate', 'Advanced')),
+    start_date      DATE NOT NULL, -- dd-mm-yyyy , mm-dd-yyyy, yyyy-mm-dd
+    seats_available INT CHECK (seats_available >= 0),
+    is_active       VARCHAR(3) DEFAULT 'Yes' CHECK (is_active IN ('Yes', 'No'))
+);
+
+
+CREATE TABLE enrollments (
+    enrollment_id      INT PRIMARY KEY,
+    student_id         INT NOT NULL,
+    course_id          INT NOT NULL,
+    enroll_date        DATE NOT NULL,
+    completion_date    DATE,
+    status             VARCHAR(20) DEFAULT 'Active' CHECK (status IN ('Active', 'Completed', 'Dropped')),
+    payment_status      VARCHAR(20) DEFAULT 'Pending' CHECK (payment_status IN ('Pending', 'Paid', 'Refunded')),
+    amount_paid         DECIMAL(10,2) CHECK (amount_paid >= 0),
+    grade               VARCHAR(2),
+    feedback_rating      INT CHECK (feedback_rating BETWEEN 1 AND 5),
+    certificate_issued   VARCHAR(3) DEFAULT 'No' CHECK (certificate_issued IN ('Yes', 'No')),
+    remarks              VARCHAR(100),
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);
+
+
+
+
+
+INSERT INTO students (student_id ,first_name ,last_name, email, phone, age , city , state, enrollment_date, course_track, is_active) VALUES
+(1,  'veerendra', 'potula',  'veeru.potula@email.com',  '900000001', 34, 'Pune',   'Maharastra',      '2024-06-02', 'SQL',              'Yes'),
+(2,  'Priya',   'Sharma',  'priya.sharma@email.com',  '9000000002', 24, 'Hyderabad',   'Telangana',      '2024-06-02', 'SQL',              'Yes'),
+(3,  'Arjun',   'Reddy',   'arjun.reddy@email.com',   '9000000003', 19,    'Vijayawada',  'Andhra Pradesh', '2024-06-03', 'PySpark',          'Yes'),
+(4,  'Sneha',   'Patel',   'sneha.patel@email.com',   '9000000004', 21,  DEFAULT,        'Gujarat',        '2024-06-05', 'SQL',              'Yes'),
+(5,  'Kiran',   'Rao',     'kiran.rao@email.com',     '9000000005', 28,    'Chennai',     'Tamil Nadu',     '2024-06-07', 'Azure Databricks', 'Yes'),
+(6,  'Anjali',  'Verma',   'anjali.verma@email.com',  '9000000006', 23,  'Delhi',       'Delhi',          '2024-06-08', 'Data Engineering', 'Yes'),
+(7,  'Vikram',  'Singh',   'vikram.singh@email.com',  '9000000007', 30,  'Jaipur',      'Rajasthan',      '2024-06-09', 'SQL',              'No'),
+(8,  'Divya',   'Nair',    'divya.nair@email.com',    '9000000008', 26,  'Kochi',       'Kerala',         '2024-06-10', 'PySpark',          'Yes'),
+(9,  'Manoj',   'Gupta',   'manoj.gupta@email.com',   '9000000009', 25,    'Lucknow',     'Uttar Pradesh',  '2024-06-11', 'Azure Databricks', 'Yes'),
+(10, 'Pooja',   'Iyer',    'pooja.iyer@email.com',    '9000000010', 20,  'Bangalore',   'Karnataka',      '2024-06-12', 'SQL',              'Yes'),
+(11, 'Suresh',  'Yadav',   'suresh.yadav@email.com',  '9000000011', 27,    'Bhopal',      'Madhya Pradesh', '2024-06-13', 'Data Engineering', 'Yes'),
+(12, 'Neha',    'Kapoor',  'neha.kapoor@email.com',   '9000000012', 22,  'Chandigarh',  'Punjab',         '2024-06-14', 'PySpark',          'No'),
+(13, 'Rahul',   'Mehta',   'rahul.mehta@email.com',   '9000000013', 24,  'Pune',        'Maharashtra',    '2024-06-15', 'SQL',              'Yes'),
+(14, 'Kavya',   'Menon',   'kavya.menon@email.com',   '9000000014', 21,  'Kozhikode',   'Kerala',         '2024-06-16', 'Azure Databricks', 'Yes'),
+(15, 'Amit',    'Joshi',   'amit.joshi@email.com',    '9000000015', 29,    'Indore',      'Madhya Pradesh', '2024-06-17', 'Data Engineering', 'Yes'),
+(16, 'Sunita',  'Desai',   'sunita.desai@email.com',  '9000000016', 26,  'Surat',       'Gujarat',        '2024-06-18', 'SQL',              'Yes'),
+(17, 'Ganesh',  'Pillai',  'ganesh.pillai@email.com', '9000000017', 23,   'Madurai',     'Tamil Nadu',     '2024-06-19', 'PySpark',          'Yes'),
+(18, 'Ritu',    'Bhatia',  'ritu.bhatia@email.com',   '9000000018', 25,  'Ludhiana',    'Punjab',         '2024-06-20', 'Azure Databricks', 'No'),
+(19, 'Deepak',  'Chauhan', 'deepak.chauhan@email.com','9000000019', 31,   'Agra',        'Uttar Pradesh',  '2024-06-21', 'Data Engineering', 'Yes'),
+(20, 'Meera',   'Krishnan','meera.krishnan@email.com','9000000020', 22, 'Coimbatore',  'Tamil Nadu',     '2024-06-22', 'SQL',              'Yes');
+
+
+
+
+INSERT INTO COURSES(course_id,course_name,category,duration_days,fee,discount_percent,instructor,mode,level,start_date,seats_available,is_active) VALUES
+(101, 'SQL Basics',                 'Database',       15, 5000.00,  10, 'Sai Kiran', 'Online',  'Beginner',     '2024-07-01', 30, 'Yes'),
+(102, 'SQL Advanced Queries',       'Database',       10, 4000.00,  0,  'Sai Kiran', 'Online',  'Advanced',     '2024-07-05', 25, 'Yes'),
+(103, 'PySpark Fundamentals',       'Big Data',       30, 12000.00, 15, 'Sai Kiran', 'Online',  'Intermediate', '2024-07-10', 20, 'Yes'),
+(104, 'PySpark Performance Tuning', 'Big Data',       15, 8000.00,  5,  'Sai Kiran', 'Hybrid',  'Advanced',     '2024-07-15', 15, 'Yes'),
+(105, 'Azure Databricks',           'Cloud',          20, 15000.00, 10, 'Sai Kiran', 'Online',  'Intermediate', '2024-07-20', 25, 'Yes'),
+(106, 'Unity Catalog Deep Dive',    'Cloud',          7,  6000.00,  0,  'Sai Kiran', 'Online',  'Advanced',     '2024-07-22', 20, 'Yes'),
+(107, 'Data Engineering with ADF',  'Cloud',          25, 14000.00, 10, DEFAULT,     'Hybrid',  'Intermediate', '2024-07-25', 18, 'Yes'),
+(108, 'Python for Data Engineers',  'Programming',    20, 7000.00,  5,  'Ramesh',    'Online',  'Beginner',     '2024-08-01', 30, 'Yes'),
+(109, 'Delta Lake Essentials',      'Big Data',        8, 6500.00,  0,  'Sai Kiran', 'Online',  'Intermediate', '2024-08-03', 22, 'Yes'),
+(110, 'Data Warehousing Concepts',  'Database',       12, 5500.00,  10, 'Anitha',    'Offline', 'Beginner',     '2024-08-05', 15, 'Yes'),
+(111, 'ETL Pipeline Design',        'Data Engineering',18, 9000.00, 5,  'Sai Kiran', 'Hybrid',  'Intermediate', '2024-08-08', 20, 'Yes'),
+(112, 'NoSQL Databases',            'Database',       10, 4500.00,  0,  'Ramesh',    'Online',  'Beginner',     '2024-08-10', 25, 'Yes'),
+(113, 'Power BI for Analysts',      'Analytics',      12, 6000.00,  10, 'Anitha',    'Online',  'Beginner',     '2024-08-12', 30, 'Yes'),
+(114, 'Azure Data Factory Basics',  'Cloud',          15, 7500.00,  0,  'Sai Kiran', 'Online',  'Beginner',     '2024-08-15', 20, 'Yes'),
+(115, 'Advanced Data Modeling',     'Database',       10, 6000.00,  5,  'Anitha',    'Hybrid',  'Advanced',     '2024-08-18', 12, 'Yes'),
+(116, 'Kafka for Data Streaming',   'Big Data',       14, 9500.00,  0,  'Ramesh',    'Online',  'Advanced',     '2024-08-20', 18, 'No'),
+(117, 'Git and Version Control',    'Programming',     5, 2000.00,  0,  'Sai Kiran', 'Online',  'Beginner',     '2024-08-22', 40, 'Yes'),
+(118, 'Data Governance Basics',     'Cloud',           8, 4000.00,  10, 'Anitha',    'Offline', 'Intermediate', '2024-08-25', 15, 'Yes'),
+(119, 'Spark SQL Interview Prep',   'Database',        6, 3000.00,  0,  'Sai Kiran', 'Online',  'Advanced',     '2024-08-28', 35, 'Yes'),
+(120, 'Cloud Cost Optimization',    'Cloud',           7, 5000.00,  5,  'Ramesh',    'Online',  'Intermediate', '2024-08-30', 20, 'Yes'); 
+
+
+
+
+insert into enrollments (enrollment_id,student_id,course_id,enroll_date,completion_date,status,payment_status,amount_paid,grade,feedback_rating,certificate_issued,remarks) VALUES
+(2,  1,  103, '2024-07-10', NULL,         'Active',    'Paid',    12000.00, NULL, NULL, 'No', 'Ongoing'),
+(3,  2,  101, '2024-07-01', '2024-07-16', 'Completed', 'Paid',    4500.00, 'B',  4, 'Yes', 'Good progress'),
+(4,  3,  105, '2024-07-20', NULL,         'Dropped',   'Refunded',7500.00, NULL, 2, 'No', 'Left mid-course'),
+(5,  4,  102, '2024-07-05', '2024-07-15', 'Completed', 'Paid',    4000.00, 'A',  5, 'Yes', 'Top scorer'),
+(6,  5,  105, '2024-07-20', NULL,         'Active',    'Paid',    15000.00, NULL, NULL, 'No', 'Ongoing'),
+(7,  6,  107, '2024-07-25', NULL,         'Active',    'Pending', 7000.00,  NULL, NULL, 'No', 'Payment partial'),
+(8,  7,  101, '2024-07-01', '2024-07-16', 'Completed', 'Paid',    5000.00, 'C',  3, 'Yes', 'Needs revision'),
+(9,  8,  103, '2024-07-10', NULL,         'Active',    'Paid',    12000.00, NULL, NULL, 'No', 'Ongoing'),
+(10, 9,  105, '2024-07-20', '2024-08-09', 'Completed', 'Paid',    15000.00, 'A',  5, 'Yes', 'Excellent'),
+(11, 10, 102, '2024-07-05', NULL,         'Dropped',   'Refunded',4000.00,  NULL, 1, 'No', 'Schedule conflict'),
+(12, 11, 107, '2024-07-25', NULL,         'Active',    'Paid',    14000.00, NULL, NULL, 'No', 'Ongoing'),
+(13, 12, 104, '2024-07-15', '2024-07-30', 'Completed', 'Paid',    8000.00, 'B',  4, 'Yes', 'Solid work'),
+(14, 13, 101, '2024-07-01', '2024-07-16', 'Completed', 'Paid',    5000.00, 'A',  5, 'Yes', 'Great grasp of basics'),
+(15, 14, 105, '2024-07-20', NULL,         'Active',    'Pending', 0.00,     NULL, NULL, 'No', 'Payment pending'),
+(16, 15, 107, '2024-07-25', '2024-08-19', 'Completed', 'Paid',    14000.00, 'B',  4, 'Yes', 'Consistent effort'),
+(17, 16, 102, '2024-07-05', NULL,         'Active',    'Paid',    4000.00,  NULL, NULL, 'No', 'Ongoing'),
+(18, 17, 103, '2024-07-10', NULL,         'Dropped',   'Refunded',12000.00, NULL, 2, 'No', 'Personal reasons'),
+(19, 18, 105, '2024-07-20', '2024-08-09', 'Completed', 'Paid',    15000.00, 'C',  3, 'Yes', 'Improved over time'),
+(20, 19, 101, '2024-07-01', NULL,         'Active',    'Pending', 2500.00,  NULL, NULL, 'No', 'Half payment done');
+
